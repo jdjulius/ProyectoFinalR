@@ -1,0 +1,79 @@
+---
+title: "INE Guatemala - Importaciones de medicamentos en Guatemala periodo 2016-2020"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    vertical_layout: fill
+    logo: Logo/logobla.png
+    #theme: journal
+    css: styles.css
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(dplyr)
+library(ggplot2)
+library(forcats)
+library(DT)
+library(plotly)
+library(readxl)
+library(scales)
+library(chilemapas)
+library(maps)
+library(tmap)
+library(sf)
+library(viridis)
+library(leaflet)
+library(geojsonio)
+library(treemap)
+library(treemapify)
+library(ggpubr)
+library(ggbeeswarm)
+
+```
+
+```{r}
+#IMPORTACIONES
+importaciones = read_excel("Datos/importaciones.xlsx")
+medicamentos = read_excel("Datos/basemedicamentos.xlsx")
+#options(999)
+
+cbp1 <- c("#FFDB6D", "#C4961A", "#F4EDCA", "#D16103", "#C3D7A4", "#52854C", "#4E84C4", "#293352")
+
+wbdata <- readr::read_rds("Datos/WB_Data1960_2020.rds")
+
+
+importaciones <- importaciones %>% 
+  mutate(fct_anio = paste(anio),
+         fct_mes = paste(mes))
+
+```
+
+
+```{r}
+
+cantidad_dinero = importaciones %>% filter(tipo == 2, anio == 2020) %>%summarise(din =sum(monto))
+
+Cantidad_unidades <- importaciones %>% filter(tipo == 2, anio == 2020) %>% summarise(din =sum(unidades))
+
+Cantidad_pais <- importaciones %>% filter(tipo == 2, anio == 2020) %>%distinct(pais) %>% count()
+
+```
+
+
+```{r child = 'Pagina-continente.Rmd'}
+
+```
+
+```{r child = 'Pagina-pais.Rmd'}
+
+```
+
+```{r child = 'Pagina-covid.Rmd'}
+
+```
+
+```{r child = 'Pagina-tabla.Rmd'}
+
+```
+

@@ -1,0 +1,30 @@
+---
+title: "Tabla"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+
+<i class="fas fa-table"></i> Tabla iteractiva
+===================================== 
+Row
+-----------------------------------------------------------------------
+```{r}
+
+importaciones %>% 
+  filter(tipo == 2) %>% 
+  datatable(
+  colnames = c('Año','País', 'Continente','Total ($)'),
+                        rownames = FALSE, filter = 'top',
+                        extensions = 'Buttons', options = list(
+                          columnDefs = list(list(width = '50px')),
+                          pageLength = 9,
+                          dom = 'Bfrtip',
+                          buttons = c('copy', 'csv', 'excel', 'pdf', 'print')
+                          )
+                        )
+
+
+```

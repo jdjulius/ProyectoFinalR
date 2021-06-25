@@ -1,0 +1,129 @@
+---
+title: "Pais"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: row
+    vertical_layout: fill
+    logo: Logo/logobla.png
+    #theme: journal
+    css: styles.css
+---
+
+
+<i class="fas fa-flag"></i> País 
+===================================== 
+
+
+
+### **Importaciones del medicamentos para el periodo 2016 2020 (5 principales países de importación)en US$**
+
+```{r}
+
+
+
+g16 <-importaciones %>% 
+  filter(tipo == 2, anio == 2016) %>% 
+  group_by(anio, pais) %>% 
+  select(anio, pais,monto) %>%
+  summarise(total = sum(monto)) %>% 
+  arrange(desc(total)) %>% 
+  head(5) %>% 
+  ggplot(aes(x=reorder(pais,total), y=total)) + 
+  scale_y_continuous(labels = label_number(suffix = "M", scale = 1e-6),  limits = c(0, 60000000),breaks = seq(0,60000000, 10000000)) +
+  geom_bar( stat='identity', color = "#0D335D", fill = "#0D335D") +
+  labs(x = NULL,
+       y = "2016") +
+  theme_minimal()+
+  coord_flip()
+
+g17 <-importaciones %>% 
+  filter(tipo == 2, anio == 2017) %>% 
+  group_by(anio, pais) %>% 
+  select(anio, pais,monto) %>%
+  summarise(total = sum(monto)) %>% 
+  arrange(desc(total)) %>% 
+  head(5) %>% 
+  ggplot(aes(x=reorder(pais,total), y=total)) + 
+  scale_y_continuous(labels = label_number(suffix = "M", scale = 1e-6),  limits = c(0, 60000000),breaks = seq(0,60000000, 10000000)) +
+  geom_bar( stat='identity', color = "#0D335D", fill = "#0D335D") +
+  labs(x = NULL,
+       y = "2017") +
+  theme_minimal()+
+  coord_flip()
+
+
+g18 <-importaciones %>% 
+  filter(tipo == 2, anio == 2018) %>% 
+  group_by(anio, pais) %>% 
+  select(anio, pais,monto) %>%
+  summarise(total = sum(monto)) %>% 
+  arrange(desc(total)) %>% 
+  head(5) %>% 
+  ggplot(aes(x=reorder(pais,total), y=total)) + 
+  scale_y_continuous(labels = label_number(suffix = "M", scale = 1e-6),  limits = c(0, 60000000),breaks = seq(0,60000000, 10000000)) +
+  geom_bar( stat='identity', color = "#0D335D", fill = "#0D335D") +
+  labs(x = NULL,
+       y = "2018") +
+  theme_minimal()+
+  coord_flip()
+
+
+g19 <-importaciones %>% 
+  filter(tipo == 2, anio == 2019) %>% 
+  group_by(anio, pais) %>% 
+  select(anio, pais,monto) %>%
+  summarise(total = sum(monto)) %>%
+  arrange(desc(total)) %>% 
+  head(5) %>% 
+  ggplot(aes(x=reorder(pais,total), y=total)) + 
+  scale_y_continuous(labels = label_number(suffix = "M", scale = 1e-6),  limits = c(0, 60000000),breaks = seq(0,60000000, 10000000)) +
+  geom_bar( stat='identity', color = "#0D335D", fill = "#0D335D") +
+  labs(x = NULL,
+       y = "2019") +
+  theme_minimal()+
+  coord_flip()
+
+
+g20 <-importaciones %>% 
+  filter(tipo == 2, anio == 2020) %>% 
+  group_by(anio, pais) %>% 
+  select(anio, pais,monto) %>%
+  summarise(total = sum(monto)) %>%
+  arrange(desc(total)) %>% 
+  head(5) %>% 
+  ggplot(aes(x=reorder(pais,total), y=total)) + 
+  scale_y_continuous(labels = label_number(suffix = "M", scale = 1e-6),  limits = c(0, 60000000),breaks = seq(0,60000000, 10000000)) +
+  geom_bar( stat='identity', color = "#0D335D", fill = "#0D335D") +
+  labs(x = NULL,
+       y = "2020") +
+  theme_minimal()+
+  coord_flip()
+
+figure <- ggarrange(g16, g17,g18, g19,g20,ncol = 2, nrow = 3)
+figure
+
+```
+
+
+
+### **Cantidad total de importaciones por pais 2016 - 2020 **
+```{r}
+
+gm6 <- importaciones %>% 
+  filter(tipo == 2 & pais %in% c("México","India","Alemania", "España", "El Salvador", "Francia")) %>% 
+  group_by(anio, pais) %>% 
+  summarise(total = sum(monto)) %>% 
+  ungroup() %>% 
+  ggplot(aes(x=anio, y=total, color= pais)) + 
+  geom_line(size=1.0) +
+  scale_y_continuous(labels = comma) +
+  labs(x = NULL,
+       y = "Total de importaciones en medicamientos ($)") +
+  theme_minimal()
+
+ggplotly(gm6) 
+```
+
+
+
+

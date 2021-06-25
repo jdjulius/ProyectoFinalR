@@ -1,0 +1,108 @@
+---
+title: "Storyboard"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+
+
+<i class="fas fa-flag"></i> OTRO {.storyboard}
+===================================== 
+
+### ** Principales paises importadores de medicamentos periodo 2016 - 2020**
+```{r}
+
+
+
+```
+
+***
+
+esta es el texto que se va a editar
+
+### **Total de importaciones en medicamentos($) del año 2016-2020**
+```{r}
+gm5 <- importaciones %>% 
+  filter(tipo == 2) %>% 
+  group_by(anio, descripcion) %>% 
+  summarise(total = sum(monto)) %>% 
+  ggplot() + 
+  geom_bar(aes(x=anio, y=total), stat='identity', color = "#0D335D", fill = "#0D335D") +
+  scale_x_log10(labels = , breaks = seq(2016, 2020, 1)) +
+  scale_y_continuous(labels = comma, limits = c(0, 500000000)) +
+  labs(x = NULL,
+       y = "Total de importaciones ($)") +
+  theme_minimal()
+
+ggplotly(gm5) 
+
+
+
+```
+
+***
+
+esta es el texto que se va a editar
+
+### **Total de importaciones mensuales en medicamentos del año 2020 ($)**
+```{r}
+
+
+```
+
+
+***
+
+esta es el texto que se va a editar
+
+### **Cantidad total de importaciones por continente del 2016-2020 **
+```{r}
+
+
+
+```
+
+***
+
+esta es el texto que se va a editar
+
+### **Histograma de la cantidad dolares gastado en importaciones del 2016-2020 **
+```{r}
+
+
+
+```
+
+***
+
+esta es el texto que se va a editar
+
+### **Cantidad total de unidades importadas por pais del año 2016 - 2020**
+```{r}
+
+
+gm7 <- importaciones %>% 
+  filter(tipo == 2) %>% 
+  group_by(pais) %>% 
+  select(pais,unidades) %>% 
+  summarise(total = sum(unidades)) %>% 
+  arrange(desc(total)) %>% 
+  head(n=10) %>% 
+  ggplot(aes(x=reorder(pais,total), y=total)) + 
+  scale_y_continuous(labels = comma) +
+  geom_bar( stat='identity', color = "#0D335D", fill = "#0D335D") +
+  labs(x = NULL,
+       y = "Total de importaciones en medicamientos (Unidad)") +
+  theme_minimal()+
+  coord_flip() 
+
+ggplotly(gm7) 
+
+```
+
+***
+
+esta es el texto que se va a editar
+
